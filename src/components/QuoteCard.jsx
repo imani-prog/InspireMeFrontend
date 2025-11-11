@@ -25,11 +25,11 @@ export default function QuoteCard({ quote, className = '' }) {
         
         {/* Quote Text */}
         <div className="relative mt-4 sm:mt-6">
-          <div className="absolute -left-2 sm:-left-4 md:-left-6 top-0 text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-emerald-200 opacity-30 select-none leading-none" style={{fontFamily: "'Playfair Display', serif"}}>"</div>
+          <div className="absolute -left-2 sm:-left-4 md:-left-6 top-0 text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-black opacity-70 select-none leading-none" style={{fontFamily: "'Playfair Display', serif"}}>"</div>
           <blockquote className="relative z-10 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-gray-800 leading-relaxed font-serif italic px-2 sm:px-4 md:px-8">
             {text}
           </blockquote>
-          <div className="absolute -right-2 sm:-right-4 md:-right-6 bottom-0 text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-lime-200 opacity-30 select-none leading-none" style={{fontFamily: "'Playfair Display', serif"}}>"</div>
+          <div className="absolute -right-2 sm:-right-4 md:-right-6 bottom-0 text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-black opacity-70 select-none leading-none" style={{fontFamily: "'Playfair Display', serif"}}>"</div>
         </div>
         
         {/* Author Section */}

@@ -87,7 +87,7 @@ function App() {
           {/* Header */}
           <header className="text-center mb-8 sm:mb-12 md:mb-16 animate-slideUp">
             <div className="inline-block relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-lime-400 via-emerald-400 to-teal-400 rounded-lg blur opacity-75"></div>
+              <div className="absolute -inset-1  rounded-lg blur opacity-75"></div>
               <div className="relative">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-2 sm:mb-3 md:mb-4 tracking-tight px-4 flex items-center justify-center gap-3 sm:gap-4" style={{fontFamily: "'Playfair Display', serif"}}>
                   <SparklesIcon className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
