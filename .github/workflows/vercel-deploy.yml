@@ -13,7 +13,7 @@ jobs:
   deploy:
     name: Deploy to Vercel Production
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && secrets.VERCEL_TOKEN != '' }}
     
     steps:
       - name: Checkout repository
@@ -43,7 +43,7 @@ jobs:
   deploy-preview:
     name: Deploy Preview on Develop
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop' && secrets.VERCEL_TOKEN != ''
     
     steps:
       - name: Checkout repository
