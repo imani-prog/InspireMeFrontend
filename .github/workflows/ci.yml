@@ -59,6 +59,7 @@ jobs:
         with:
           context: .
           push: false
+          load: true
           tags: inspireme-frontend:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -66,7 +67,7 @@ jobs:
       - name: Test Docker container
         run: |
           docker run -d -p 3000:80 --name test-container inspireme-frontend:test
-          sleep 5
+          sleep 10
           curl -f http://localhost:3000 || exit 1
           docker stop test-container
           docker rm test-container
