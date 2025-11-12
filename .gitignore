@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Note: .env.production can be committed as it contains public URLs
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
