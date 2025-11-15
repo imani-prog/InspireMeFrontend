@@ -55,7 +55,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VITE_API_URL=https://quotes-backend.onrender.com/api/quotes
+            VITE_API_URL=https://inspiremebackend.onrender.com/api/quotes
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
