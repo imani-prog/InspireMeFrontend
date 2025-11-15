@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { PenIcon, CloseIcon, SaveIcon, LoaderIcon } from './Icons'
+import { saveQuote } from '../services/quoteService'
 
 export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
   const [text, setText] = useState('')
@@ -22,12 +22,12 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
     setError(null)
 
     try {
-      const response = await axios.post('http://localhost:8080/api/quotes', {
+      const response = await saveQuote({
         text: text.trim(),
         author: author.trim() || 'Unknown'
       })
       
-      console.log('Quote created:', response.data)
+      console.log('Quote created:', response)
       
       // Reset form
       setText('')
@@ -35,7 +35,7 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
       
       // Notify parent
       if (onQuoteAdded) {
-        onQuoteAdded(response.data)
+        onQuoteAdded(response)
       }
       
       // Close modal
