@@ -5,7 +5,9 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
   ],
-  "env": {
-    "VITE_API_URL": "https://inspiremebackend.onrender.com/api/quotes"
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://inspiremebackend.onrender.com/api/quotes"
+    }
   }
 }

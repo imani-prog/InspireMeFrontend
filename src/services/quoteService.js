@@ -3,10 +3,13 @@ import axios from 'axios'
 // Use environment variable with fallback to localhost for development
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/quotes'
 
-// Log API URL in development for debugging
-if (import.meta.env.DEV) {
-  console.log('🌐 API URL:', BASE_URL)
-}
+// Log API URL for debugging (visible in browser console)
+console.log('🌐 API Configuration:', {
+  url: BASE_URL,
+  mode: import.meta.env.MODE,
+  isDev: import.meta.env.DEV,
+  isProd: import.meta.env.PROD,
+})
 
 export async function getRandomQuote() {
   const res = await axios.get(`${BASE_URL}/random`)
