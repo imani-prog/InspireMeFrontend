@@ -25,12 +25,11 @@ export default function SavedQuotesList({ onClose }) {
     try {
       const data = await getSavedQuotes()
       console.log('Received saved quotes:', data)
-      // Handle different backend response formats
+      
       let quotesArray = []
       if (Array.isArray(data)) {
         quotesArray = data
       } else if (data && Array.isArray(data.quotes)) {
-        // Backend returns {count: 12, quotes: [...]}
         quotesArray = data.quotes
       } else {
         console.warn('Backend returned unexpected format:', data)

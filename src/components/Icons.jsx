@@ -18,7 +18,6 @@ import {
   Inbox
 } from 'lucide-react'
 
-// Wrapper components for consistent styling across the app
 export const SparklesIcon = ({ className = "w-6 h-6", ...props }) => (
   <Sparkles className={className} {...props} />
 )

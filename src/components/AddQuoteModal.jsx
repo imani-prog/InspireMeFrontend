@@ -29,16 +29,13 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
       
       console.log('Quote created:', response)
       
-      // Reset form
       setText('')
       setAuthor('')
       
-      // Notify parent
       if (onQuoteAdded) {
         onQuoteAdded(response)
       }
       
-      // Close modal
       onClose()
     } catch (err) {
       console.error('Error creating quote:', err)

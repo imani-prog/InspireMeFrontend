@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-// Use environment variable with fallback to localhost for development
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/quotes'
 
-// Log API URL for debugging (visible in browser console)
 console.log('🌐 API Configuration:', {
   url: BASE_URL,
   mode: import.meta.env.MODE,
