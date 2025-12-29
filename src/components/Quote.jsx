@@ -106,8 +106,8 @@ function Quote() {
                 <div className="text-center py-12 sm:py-16 md:py-20">
                   <div className="inline-flex flex-col items-center gap-4">
                     <div className="relative">
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 border-6 sm:border-8 border-emerald-200 border-t-white rounded-full animate-spin"></div>
-                      <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 border-6 sm:border-8 border-transparent border-b-lime-300 rounded-full animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 border-6 sm:border-8 border-blue-500 border-t-white rounded-full animate-spin"></div>
+                      <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 border-6 sm:border-8 border-transparent border-b-blue-500 rounded-full animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
                     </div>
                     <p className="text-white text-base sm:text-lg font-medium animate-pulse">Loading inspiration...</p>
                   </div>
@@ -180,7 +180,7 @@ function Quote() {
             {/* Success Message */}
             {message && (
               <div className="text-center animate-slideUp px-4">
-                <div className="inline-flex items-center gap-2 sm:gap-3 bg-emerald-500/30 backdrop-blur-lg border border-emerald-300/50 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl">
+                <div className="inline-flex items-center gap-2 sm:gap-3 bg-blue-500 backdrop-blur-lg border border-blue-300/50 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl">
                   <CheckIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 animate-bounce text-white" />
                   <span className="text-white font-bold text-sm sm:text-base md:text-xl">{message}</span>
                 </div>
@@ -195,8 +195,8 @@ function Quote() {
 
           {/* Footer */}
           <footer className="text-center mt-12 sm:mt-16 md:mt-20 pb-4 sm:pb-6 md:pb-8">
-            <p className="text-emerald-200 text-xs sm:text-sm font-medium px-4 flex items-center justify-center gap-2">
-              Made with <HeartIcon className="w-4 h-4 text-lime-400 animate-pulse fill-lime-400" /> for inspiration seekers worldwide
+            <p className="text-white text-xs sm:text-sm font-bold px-4 flex items-center justify-center gap-2">
+              Made with <HeartIcon className="w-4 h-4 text-blue-400 animate-pulse fill-blue-400" /> for inspiration seekers worldwide
             </p>
           </footer>
         </div>
