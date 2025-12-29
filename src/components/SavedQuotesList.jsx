@@ -80,21 +80,21 @@ export default function SavedQuotesList({ onClose }) {
     <div className="max-w-5xl mx-auto mt-6 sm:mt-8 md:mt-12 px-2 sm:px-0">
       {/* Header Card */}
       <div className="relative group mb-6 sm:mb-8">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-lime-500 rounded-xl sm:rounded-2xl blur opacity-30"></div>
+        <div className="absolute -inset-0.5 bg-blue-500 rounded-xl sm:rounded-2xl blur opacity-30"></div>
         <div className="relative bg-white/95 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 border border-white/20">
           <div className="flex flex-col gap-3 sm:gap-4">
             <div>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-lime-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
-                <BookIcon className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" />
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-blue-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
+                <BookIcon className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600" />
                 Your Collection
               </h3>
               <p className="text-gray-600 font-medium mt-1 sm:mt-2 text-sm sm:text-base">
                 {quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'} saved
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 sm:gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3 px-4 sm:px-8">
               <button
-                className="flex-1 min-w-[120px] px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-lime-500 to-emerald-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-lime-600 hover:to-emerald-600 transition-all transform hover:scale-105 shadow-lg"
+                className="px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg"
                 onClick={handleAddRandomQuote}
                 disabled={loading}
               >
@@ -104,7 +104,7 @@ export default function SavedQuotesList({ onClose }) {
                 </span>
               </button>
               <button
-                className="flex-1 min-w-[100px] px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all transform hover:scale-105 shadow-lg"
+                className="px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg"
                 onClick={load}
                 disabled={loading}
               >
@@ -114,7 +114,7 @@ export default function SavedQuotesList({ onClose }) {
                 </span>
               </button>
               <button
-                className="px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all transform hover:scale-105 shadow-lg"
+                className="px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all transform hover:scale-105 shadow-lg"
                 onClick={onClose}
               >
                 <span className="flex items-center justify-center gap-1.5 sm:gap-2">
@@ -180,12 +180,12 @@ export default function SavedQuotesList({ onClose }) {
             style={{animationDelay: `${index * 0.1}s`}}
           >
             {/* Glow Effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-400 to-lime-400 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+            <div className="absolute -inset-0.5 bg-blue-600 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
             
             {/* Quote Card */}
             <div className="relative bg-white/90 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl border border-emerald-200/50 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               {/* Quote Icon */}
-              <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 bg-gradient-to-r from-emerald-500 to-lime-500 rounded-full p-1.5 sm:p-2 shadow-md">
+              <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 bg-blue-600 rounded-full p-1.5 sm:p-2 shadow-md">
                 <MessageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               
@@ -198,17 +198,17 @@ export default function SavedQuotesList({ onClose }) {
                 </div>
                 
                 {/* Author & Actions */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-emerald-100">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-blue-100">
                   <div className="flex items-center gap-2">
-                    <div className="h-1 w-8 sm:w-10 bg-gradient-to-r from-emerald-400 to-lime-400 rounded-full"></div>
-                    <div className="text-xs sm:text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-lime-600">
+                    <div className="h-1 w-8 sm:w-10 bg-blue-600 rounded-full"></div>
+                    <div className="text-xs sm:text-sm font-bold">
                       {q.author || q.a || q.by || 'Unknown'}
                     </div>
                   </div>
                   
                   <button
                     onClick={() => handleDelete(q.id)}
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold rounded-lg hover:from-red-600 hover:to-rose-600 transition-all transform hover:scale-110 shadow-md hover:shadow-lg w-full sm:w-auto"
+                    className="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold rounded-lg hover:from-red-600 hover:to-rose-600 transition-all transform hover:scale-110 shadow-md hover:shadow-lg"
                   >
                     <span className="flex items-center justify-center gap-1 sm:gap-1.5">
                       <TrashIcon className="w-4 h-4 sm:w-4 sm:h-4" />
@@ -219,7 +219,7 @@ export default function SavedQuotesList({ onClose }) {
               </div>
               
               {/* Decorative Element */}
-              <div className="absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2 text-emerald-300 opacity-30 text-xs sm:text-sm">
+              <div className="absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2 text-blue-600 opacity-30 text-xs sm:text-sm">
                 <StarIcon className="w-3 h-3 sm:w-4 sm:h-4" />
               </div>
             </div>
