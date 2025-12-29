@@ -11,7 +11,7 @@ export default function SavedPage() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-green-950">
+    <div className="min-h-screen relative overflow-hidden bg-slate-900">
       <div className="relative z-10 min-h-screen">
         <div className="max-w-6xl mx-auto py-4 sm:py-6 md:py-8">
           {/* Header */}

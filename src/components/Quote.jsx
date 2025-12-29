@@ -73,7 +73,7 @@ function Quote() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-green-950">
+    <div className="min-h-screen relative overflow-hidden bg-slate-900">
       {/* Animated Background Blobs */}
       
       {/* Main Content */}
