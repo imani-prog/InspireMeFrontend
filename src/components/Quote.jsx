@@ -73,7 +73,7 @@ function Quote() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-green-900">
+    <div className="min-h-screen relative overflow-hidden bg-green-950">
       {/* Animated Background Blobs */}
       
       {/* Main Content */}
@@ -88,10 +88,10 @@ function Quote() {
                   <SparklesIcon className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
                   InspireMe
                 </h1>
-                <div className="h-1 sm:h-1.5 md:h-2 bg-teal-400 rounded-full"></div>
+                <div className="h-1 sm:h-1.5 md:h-2 bg-blue-400 rounded-full"></div>
               </div>
             </div>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-emerald-100 mt-3 sm:mt-4 md:mt-6 font-medium tracking-wide px-4 flex items-center justify-center gap-2 sm:gap-3">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white mt-3 sm:mt-4 md:mt-6 font-medium tracking-wide px-4 flex items-center justify-center gap-2 sm:gap-3">
               <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
               Your Daily Dose of Wisdom & Motivation
               <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
@@ -131,12 +131,12 @@ function Quote() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center px-2 sm:px-0">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full max-w-5xl">
+            <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center px-12 sm:px-16 md:px-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full max-w-2xl sm:max-w-4xl mx-auto">
                 <button
                   onClick={fetchQuote}
                   disabled={loading}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-lime-500 to-emerald-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-lime-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-lime-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-lime-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-lime-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <RefreshIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-180 transition-transform duration-500" />
@@ -147,7 +147,7 @@ function Quote() {
                 <button
                   onClick={handleSave}
                   disabled={loading || !quote}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-emerald-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-emerald-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <SaveIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
@@ -157,7 +157,7 @@ function Quote() {
 
                 <button
                   onClick={() => setAddModalOpen(true)}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-cyan-500/50"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-cyan-500/50"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <PenIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
@@ -167,7 +167,7 @@ function Quote() {
 
                 <button
                   onClick={() => setSavedVisible((s) => !s)}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-teal-500/50"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-teal-500/50"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <BookIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
