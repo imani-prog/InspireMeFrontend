@@ -130,8 +130,8 @@ export default function SavedQuotesList({ onClose }) {
             {/* Loading State */}
       {loading && (
         <div className="text-center p-6 sm:p-8 md:p-12">
-          <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 border-b-4 sm:border-b-[5px] md:border-b-[6px] border-emerald-600"></div>
-          <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-emerald-600 font-bold">Loading...</p>
+          <div className="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 border-b-4 sm:border-b-[5px] md:border-b-[6px] border-white"></div>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-white font-bold">Loading...</p>
         </div>
       )}
 

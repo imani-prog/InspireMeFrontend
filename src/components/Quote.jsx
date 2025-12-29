@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import QuoteCard from './QuoteCard'
-import SavedQuotesList from './SavedQuotesList'
 import AddQuoteModal from './AddQuoteModal'
 import * as quoteService from '../services/quoteService'
 import { 
@@ -16,10 +16,10 @@ import {
 } from './Icons'
 
 function Quote() {
+  const navigate = useNavigate()
   const [quote, setQuote] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [savedVisible, setSavedVisible] = useState(false)
   const [message, setMessage] = useState(null)
   const [addModalOpen, setAddModalOpen] = useState(false)
 
@@ -166,12 +166,12 @@ function Quote() {
                 </button>
 
                 <button
-                  onClick={() => setSavedVisible((s) => !s)}
+                  onClick={() => navigate('/saved')}
                   className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-teal-500/50"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <BookIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
-                    <span>{savedVisible ? 'Hide' : 'View'} Saved</span>
+                    <span>View Saved</span>
                   </span>
                 </button>
               </div>
@@ -184,11 +184,6 @@ function Quote() {
                   <CheckIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 animate-bounce text-white" />
                   <span className="text-white font-bold text-sm sm:text-base md:text-xl">{message}</span>
                 </div>
-              </div>
-            )}            {/* Saved Quotes List */}
-            {savedVisible && (
-              <div className="animate-slideUp">
-                <SavedQuotesList onClose={() => setSavedVisible(false)} />
               </div>
             )}
           </main>
