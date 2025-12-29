@@ -13,8 +13,8 @@ export default function QuoteCard({ quote, className = '' }) {
       {/* Main Card */}
       <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-6 md:p-8 lg:p-12 border border-white/20 transform transition-all duration-500 hover:scale-[1.02]">
         {/* Decorative Corner Elements */}
-        <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-t-2 border-l-2 sm:border-t-4 sm:border-l-4 border-blue-500 rounded-tl-2xl sm:rounded-tl-3xl opacity-50"></div>
-        <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-b-2 border-r-2 sm:border-b-4 sm:border-r-4 border-blue-500 rounded-br-2xl sm:rounded-br-3xl opacity-50"></div>
+        <div className="absolute top-0 left-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-t-2 border-l-2 sm:border-t-4 sm:border-l-4 border-blue-600 rounded-tl-2xl sm:rounded-tl-3xl opacity-50"></div>
+        <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 border-b-2 border-r-2 sm:border-b-4 sm:border-r-4 border-blue-600 rounded-br-2xl sm:rounded-br-3xl opacity-50"></div>
         
         {/* Quote Icon */}
         <div className="absolute -top-4 sm:-top-6 left-6 sm:left-12 bg-blue-500 rounded-full p-2 sm:p-3 md:p-4 shadow-lg">

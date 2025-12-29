@@ -136,7 +136,7 @@ function Quote() {
                 <button
                   onClick={fetchQuote}
                   disabled={loading}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-lime-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-lime-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <RefreshIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-180 transition-transform duration-500" />
@@ -147,7 +147,7 @@ function Quote() {
                 <button
                   onClick={handleSave}
                   disabled={loading || !quote}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-emerald-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <SaveIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
@@ -157,7 +157,7 @@ function Quote() {
 
                 <button
                   onClick={() => setAddModalOpen(true)}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-cyan-500/50"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <PenIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
@@ -167,7 +167,7 @@ function Quote() {
 
                 <button
                   onClick={() => navigate('/saved')}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-teal-500/50"
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <BookIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
