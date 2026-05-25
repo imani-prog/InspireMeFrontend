@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getSavedQuotes, deleteQuote, fetchAndSaveRandomQuote } from '../services/quoteService'
+import { getSavedQuotes, deleteQuote, fetchAndSaveRandomQuote, explainQuote } from '../services/quoteService'
 import { 
   BookIcon, 
   PlusIcon, 
@@ -10,7 +10,8 @@ import {
   InboxIcon, 
   MessageIcon, 
   TrashIcon, 
-  StarIcon 
+  StarIcon,
+  ExplainIcon
 } from './Icons'
 
 export default function SavedQuotesList({ onClose }) {
@@ -18,6 +19,7 @@ export default function SavedQuotesList({ onClose }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
+  const [explanations, setExplanations] = useState({})
 
   async function load() {
     setLoading(true)
@@ -35,6 +37,7 @@ export default function SavedQuotesList({ onClose }) {
         console.warn('Backend returned unexpected format:', data)
       }
       setQuotes(quotesArray)
+      setExplanations({})
     } catch (err) {
       console.error('Load error:', err)
       setError(err.message || 'Failed to load saved quotes. Is your backend running?')
@@ -52,8 +55,57 @@ export default function SavedQuotesList({ onClose }) {
     try {
       await deleteQuote(id)
       setQuotes((s) => s.filter((q) => q.id !== id))
+      setExplanations((s) => {
+        const next = { ...s }
+        delete next[id]
+        return next
+      })
     } catch (err) {
       setError(err.message || 'Delete failed')
+    }
+  }
+
+  async function handleExplainSaved(q, id) {
+    if (!q || !id) return
+
+    const payload = {
+      text: q.text || q.q || q.quote,
+      author: q.author || q.a || q.by || 'Unknown',
+    }
+
+    if (!payload.text) {
+      setExplanations((s) => ({
+        ...s,
+        [id]: { loading: false, error: 'Quote text is missing', text: null },
+      }))
+      return
+    }
+
+    setExplanations((s) => ({
+      ...s,
+      [id]: { loading: true, error: null, text: null },
+    }))
+
+    try {
+      const data = await explainQuote(payload)
+      const result = data?.explanation || data?.result
+      if (!result) {
+        setExplanations((s) => ({
+          ...s,
+          [id]: { loading: false, error: 'No explanation returned', text: null },
+        }))
+        return
+      }
+      setExplanations((s) => ({
+        ...s,
+        [id]: { loading: false, error: null, text: result },
+      }))
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to explain quote'
+      setExplanations((s) => ({
+        ...s,
+        [id]: { loading: false, error: errorMsg, text: null },
+      }))
     }
   }
 
@@ -173,9 +225,12 @@ export default function SavedQuotesList({ onClose }) {
 
       {/* Quotes Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {quotes.map((q, index) => (
+        {quotes.map((q, index) => {
+          const quoteKey = q.id ?? `row-${index}`
+          const explainState = explanations[quoteKey]
+          return (
           <div 
-            key={q.id} 
+            key={quoteKey} 
             className="relative group animate-slideUp"
             style={{animationDelay: `${index * 0.1}s`}}
           >
@@ -196,6 +251,35 @@ export default function SavedQuotesList({ onClose }) {
                     "{q.text || q.q || q.quote}"
                   </p>
                 </div>
+
+                {(explainState?.loading || explainState?.error || explainState?.text) && (
+                  <div className="mb-3 sm:mb-4 rounded-lg border border-blue-200/60 bg-blue-50/60 p-3 sm:p-4">
+                    <div className="flex items-center gap-2 mb-2 text-blue-700 font-bold">
+                      <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span className="text-xs sm:text-sm">Explanation</span>
+                    </div>
+
+                    {explainState?.loading && (
+                      <div className="flex items-center gap-2 text-blue-700 text-xs sm:text-sm font-medium">
+                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        Generating...
+                      </div>
+                    )}
+
+                    {explainState?.error && (
+                      <div className="flex items-start gap-2 text-red-700 text-xs sm:text-sm font-medium">
+                        <AlertIcon className="w-4 h-4 mt-0.5" />
+                        <span>{explainState.error}</span>
+                      </div>
+                    )}
+
+                    {explainState?.text && (
+                      <p className="text-gray-800 text-xs sm:text-sm leading-relaxed">
+                        {explainState.text}
+                      </p>
+                    )}
+                  </div>
+                )}
                 
                 {/* Author & Actions */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-blue-100">
@@ -205,16 +289,29 @@ export default function SavedQuotesList({ onClose }) {
                       {q.author || q.a || q.by || 'Unknown'}
                     </div>
                   </div>
-                  
-                  <button
-                    onClick={() => handleDelete(q.id)}
-                    className="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold rounded-lg hover:from-red-600 hover:to-rose-600 transition-all transform hover:scale-110 shadow-md hover:shadow-lg"
-                  >
-                    <span className="flex items-center justify-center gap-1 sm:gap-1.5">
-                      <TrashIcon className="w-4 h-4 sm:w-4 sm:h-4" />
-                      <span className="text-xs sm:text-sm">Delete</span>
-                    </span>
-                  </button>
+
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => handleExplainSaved(q, quoteKey)}
+                      disabled={loading || explainState?.loading}
+                      className="px-4 sm:px-5 py-1.5 sm:py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <span className="flex items-center justify-center gap-1 sm:gap-1.5">
+                        <ExplainIcon className="w-4 h-4 sm:w-4 sm:h-4" />
+                        <span className="text-xs sm:text-sm">{explainState?.loading ? 'Explaining...' : 'Explain'}</span>
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(q.id)}
+                      className="px-4 sm:px-5 py-1.5 sm:py-2 bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold rounded-lg hover:from-red-600 hover:to-rose-600 transition-all transform hover:scale-110 shadow-md hover:shadow-lg"
+                    >
+                      <span className="flex items-center justify-center gap-1 sm:gap-1.5">
+                        <TrashIcon className="w-4 h-4 sm:w-4 sm:h-4" />
+                        <span className="text-xs sm:text-sm">Delete</span>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
               
@@ -224,7 +321,7 @@ export default function SavedQuotesList({ onClose }) {
               </div>
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   )

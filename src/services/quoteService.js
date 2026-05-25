@@ -34,10 +34,16 @@ export async function fetchAndSaveRandomQuote() {
   return res.data
 }
 
+export async function explainQuote(quote) {
+  const res = await axios.post(`${BASE_URL}/explain`, quote)
+  return res.data
+}
+
 export default {
   getRandomQuote,
   saveQuote,
   getSavedQuotes,
   deleteQuote,
   fetchAndSaveRandomQuote,
+  explainQuote,
 }

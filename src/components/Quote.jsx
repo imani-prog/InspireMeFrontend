@@ -12,7 +12,8 @@ import {
   BookIcon, 
   HeartIcon, 
   AlertIcon, 
-  CheckIcon 
+  CheckIcon,
+  ExplainIcon
 } from './Icons'
 
 function Quote() {
@@ -22,6 +23,9 @@ function Quote() {
   const [error, setError] = useState(null)
   const [message, setMessage] = useState(null)
   const [addModalOpen, setAddModalOpen] = useState(false)
+  const [explanation, setExplanation] = useState(null)
+  const [explainLoading, setExplainLoading] = useState(false)
+  const [explainError, setExplainError] = useState(null)
 
   useEffect(() => {
     fetchQuote()
@@ -31,6 +35,8 @@ function Quote() {
     setLoading(true)
     setError(null)
     setMessage(null)
+    setExplanation(null)
+    setExplainError(null)
     try {
       const data = await quoteService.getRandomQuote()
       let q = data
@@ -64,6 +70,39 @@ function Quote() {
       setTimeout(() => setError(null), 5000)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function handleExplain() {
+    if (!quote) return
+    setExplainLoading(true)
+    setExplainError(null)
+    setExplanation(null)
+
+    const payload = {
+      text: quote.q || quote.text || quote.quote,
+      author: quote.a || quote.author || quote.by || 'Unknown',
+    }
+
+    if (!payload.text) {
+      setExplainError('Quote text is missing')
+      setExplainLoading(false)
+      return
+    }
+
+    try {
+      const data = await quoteService.explainQuote(payload)
+      const result = data?.explanation || data?.result
+      if (!result) {
+        setExplainError('No explanation returned')
+      } else {
+        setExplanation(result)
+      }
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to explain quote'
+      setExplainError(errorMsg)
+    } finally {
+      setExplainLoading(false)
     }
   }
 
@@ -130,9 +169,44 @@ function Quote() {
               )}
             </div>
 
+            {(explainLoading || explainError || explanation) && (
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 animate-fadeIn">
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 md:p-8 border border-white/20">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    <div className="bg-blue-500 rounded-full p-2">
+                      <ExplainIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                      Explanation
+                    </h3>
+                  </div>
+
+                  {explainLoading && (
+                    <div className="flex items-center gap-3 text-gray-700 font-medium">
+                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                      Generating explanation...
+                    </div>
+                  )}
+
+                  {explainError && (
+                    <div className="flex items-start gap-2 text-red-700 font-medium">
+                      <AlertIcon className="w-5 h-5 mt-0.5" />
+                      <span>{explainError}</span>
+                    </div>
+                  )}
+
+                  {explanation && (
+                    <p className="text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed">
+                      {explanation}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center px-12 sm:px-16 md:px-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full max-w-2xl sm:max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 w-full max-w-2xl sm:max-w-5xl mx-auto">
                 <button
                   onClick={fetchQuote}
                   disabled={loading}
@@ -162,6 +236,17 @@ function Quote() {
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <PenIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
                     <span>Create Quote</span>
+                  </span>
+                </button>
+
+                <button
+                  onClick={handleExplain}
+                  disabled={loading || explainLoading || !quote}
+                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                >
+                  <span className="flex items-center justify-center gap-2 sm:gap-3">
+                    <ExplainIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
+                    <span>{explainLoading ? 'Explaining...' : 'Explain Quote'}</span>
                   </span>
                 </button>
 
