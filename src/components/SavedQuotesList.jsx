@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getSavedQuotes, deleteQuote, fetchAndSaveRandomQuote, explainQuote } from '../services/quoteService'
+import { getSavedQuotes, deleteQuote, fetchAndSaveRandomQuote, explainQuote, chatAboutQuote } from '../services/quoteService'
 import { 
   BookIcon, 
   PlusIcon, 
@@ -11,7 +11,8 @@ import {
   MessageIcon, 
   TrashIcon, 
   StarIcon,
-  ExplainIcon
+  ExplainIcon,
+  SendIcon
 } from './Icons'
 
 export default function SavedQuotesList({ onClose }) {
@@ -20,6 +21,7 @@ export default function SavedQuotesList({ onClose }) {
   const [error, setError] = useState(null)
   const [successMsg, setSuccessMsg] = useState(null)
   const [explanations, setExplanations] = useState({})
+  const [chatById, setChatById] = useState({})
 
   async function load() {
     setLoading(true)
@@ -38,6 +40,7 @@ export default function SavedQuotesList({ onClose }) {
       }
       setQuotes(quotesArray)
       setExplanations({})
+      setChatById({})
     } catch (err) {
       console.error('Load error:', err)
       setError(err.message || 'Failed to load saved quotes. Is your backend running?')
@@ -56,6 +59,11 @@ export default function SavedQuotesList({ onClose }) {
       await deleteQuote(id)
       setQuotes((s) => s.filter((q) => q.id !== id))
       setExplanations((s) => {
+        const next = { ...s }
+        delete next[id]
+        return next
+      })
+      setChatById((s) => {
         const next = { ...s }
         delete next[id]
         return next
@@ -105,6 +113,73 @@ export default function SavedQuotesList({ onClose }) {
       setExplanations((s) => ({
         ...s,
         [id]: { loading: false, error: errorMsg, text: null },
+      }))
+    }
+  }
+
+  function updateChatState(id, updater) {
+    setChatById((s) => {
+      const current = s[id] || { input: '', messages: [], loading: false, error: null }
+      return { ...s, [id]: updater(current) }
+    })
+  }
+
+  async function handleChatSend(q, id) {
+    if (!q || !id) return
+
+    const payload = {
+      text: q.text || q.q || q.quote,
+      author: q.author || q.a || q.by || 'Unknown',
+    }
+
+    if (!payload.text) {
+      updateChatState(id, (state) => ({ ...state, error: 'Quote text is missing' }))
+      return
+    }
+
+    const state = chatById[id] || { input: '', messages: [], loading: false, error: null }
+    const question = (state.input || '').trim()
+    if (!question || state.loading) return
+
+    const history = (state.messages || []).slice(-5)
+
+    updateChatState(id, (current) => ({
+      ...current,
+      loading: true,
+      error: null,
+      input: '',
+      messages: [...(current.messages || []), { role: 'user', content: question }],
+    }))
+
+    try {
+      const data = await chatAboutQuote({
+        ...payload,
+        question,
+        history,
+      })
+      const answer = data?.answer || data?.response
+      if (!answer) {
+        updateChatState(id, (current) => ({
+          ...current,
+          loading: false,
+          error: 'No response from the AI. Please try again.',
+        }))
+        return
+      }
+      updateChatState(id, (current) => ({
+        ...current,
+        loading: false,
+        messages: [...(current.messages || []), { role: 'assistant', content: answer }],
+      }))
+    } catch (err) {
+      const status = err?.response?.status
+      const errorMsg = status === 503
+        ? 'AI service is unavailable. Please try again shortly.'
+        : err?.response?.data?.message || err?.message || 'Failed to get AI response'
+      updateChatState(id, (current) => ({
+        ...current,
+        loading: false,
+        error: errorMsg,
       }))
     }
   }
@@ -228,6 +303,7 @@ export default function SavedQuotesList({ onClose }) {
         {quotes.map((q, index) => {
           const quoteKey = q.id ?? `row-${index}`
           const explainState = explanations[quoteKey]
+          const chatState = chatById[quoteKey] || { input: '', messages: [], loading: false, error: null }
           return (
           <div 
             key={quoteKey} 
@@ -280,6 +356,69 @@ export default function SavedQuotesList({ onClose }) {
                     )}
                   </div>
                 )}
+
+                <div className="mb-3 sm:mb-4 rounded-lg border border-slate-200/60 bg-slate-50/60 p-3 sm:p-4">
+                  <div className="flex items-center gap-2 mb-2 text-slate-700 font-bold">
+                    <MessageIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="text-xs sm:text-sm">Ask AI</span>
+                  </div>
+
+                  <div className="flex flex-col gap-2 max-h-40 overflow-y-auto pr-1">
+                    {chatState.messages.length === 0 && !chatState.loading && (
+                      <p className="text-xs sm:text-sm text-gray-500">Ask a question about this quote.</p>
+                    )}
+
+                    {chatState.messages.map((msg, msgIndex) => (
+                      <div
+                        key={`${msg.role}-${msgIndex}`}
+                        className={`max-w-[90%] rounded-xl px-2.5 py-1.5 text-xs sm:text-sm leading-relaxed ${msg.role === 'user'
+                          ? 'self-end bg-blue-500 text-white'
+                          : 'self-start bg-white text-gray-800'
+                        }`}
+                      >
+                        {msg.content}
+                      </div>
+                    ))}
+
+                    {chatState.loading && (
+                      <div className="max-w-[90%] self-start bg-white text-gray-800 rounded-xl px-2.5 py-1.5">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm">
+                          <div className="w-3.5 h-3.5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                          Thinking...
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {chatState.error && (
+                    <div className="mt-2 flex items-start gap-2 text-red-700 text-xs sm:text-sm font-medium">
+                      <AlertIcon className="w-4 h-4 mt-0.5" />
+                      <span>{chatState.error}</span>
+                    </div>
+                  )}
+
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      type="text"
+                      value={chatState.input}
+                      onChange={(e) => updateChatState(quoteKey, (state) => ({ ...state, input: e.target.value }))}
+                      placeholder="Ask a question..."
+                      className="flex-1 px-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                      disabled={chatState.loading || loading}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleChatSend(q, quoteKey)}
+                      disabled={chatState.loading || loading || !chatState.input.trim()}
+                      className="px-3 sm:px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105 shadow-md disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    >
+                      <span className="flex items-center justify-center gap-1.5">
+                        <SendIcon className="w-4 h-4" />
+                        <span className="text-xs sm:text-sm">{chatState.loading ? 'Sending...' : 'Send'}</span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
                 
                 {/* Author & Actions */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-blue-100">

@@ -13,7 +13,9 @@ import {
   HeartIcon, 
   AlertIcon, 
   CheckIcon,
-  ExplainIcon
+  ExplainIcon,
+  MessageIcon,
+  SendIcon
 } from './Icons'
 
 function Quote() {
@@ -26,6 +28,16 @@ function Quote() {
   const [explanation, setExplanation] = useState(null)
   const [explainLoading, setExplainLoading] = useState(false)
   const [explainError, setExplainError] = useState(null)
+  const [chatInput, setChatInput] = useState('')
+  const [chatMessages, setChatMessages] = useState([])
+  const [chatLoading, setChatLoading] = useState(false)
+  const [chatError, setChatError] = useState(null)
+
+  const questionSuggestions = [
+    'How can I apply this in my daily routine?',
+    'What is a real-life example of this quote?',
+    'What lesson should I take from this?',
+  ]
 
   useEffect(() => {
     fetchQuote()
@@ -37,6 +49,10 @@ function Quote() {
     setMessage(null)
     setExplanation(null)
     setExplainError(null)
+    setChatInput('')
+    setChatMessages([])
+    setChatError(null)
+    setChatLoading(false)
     try {
       const data = await quoteService.getRandomQuote()
       let q = data
@@ -103,6 +119,53 @@ function Quote() {
       setExplainError(errorMsg)
     } finally {
       setExplainLoading(false)
+    }
+  }
+
+  async function handleChatSend(e) {
+    if (e) e.preventDefault()
+    if (chatLoading || !quote) return
+
+    const question = chatInput.trim()
+    if (!question) return
+
+    const payload = {
+      text: quote.q || quote.text || quote.quote,
+      author: quote.a || quote.author || quote.by || 'Unknown',
+    }
+
+    if (!payload.text) {
+      setChatError('Quote text is missing')
+      return
+    }
+
+    const history = chatMessages.slice(-5)
+
+    setChatLoading(true)
+    setChatError(null)
+    setChatInput('')
+    setChatMessages((s) => [...s, { role: 'user', content: question }])
+
+    try {
+      const data = await quoteService.chatAboutQuote({
+        ...payload,
+        question,
+        history,
+      })
+      const answer = data?.answer || data?.response
+      if (!answer) {
+        setChatError('No response from the AI. Please try again.')
+        return
+      }
+      setChatMessages((s) => [...s, { role: 'assistant', content: answer }])
+    } catch (err) {
+      const status = err?.response?.status
+      const errorMsg = status === 503
+        ? 'AI service is unavailable. Please try again shortly.'
+        : err?.response?.data?.message || err?.message || 'Failed to get AI response'
+      setChatError(errorMsg)
+    } finally {
+      setChatLoading(false)
     }
   }
 
@@ -200,6 +263,92 @@ function Quote() {
                       {explanation}
                     </p>
                   )}
+                </div>
+              </div>
+            )}
+
+            {quote && (
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 animate-fadeIn">
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 md:p-8 border border-white/20">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                    <div className="bg-blue-500 rounded-full p-2">
+                      <MessageIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                      Ask the AI
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                    Ask a focused question about the quote for practical guidance.
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {questionSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        onClick={() => setChatInput(suggestion)}
+                        className="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col gap-3 max-h-64 overflow-y-auto pr-1">
+                    {chatMessages.length === 0 && !chatLoading && (
+                      <p className="text-sm text-gray-500">No questions yet. Start the conversation below.</p>
+                    )}
+
+                    {chatMessages.map((msg, index) => (
+                      <div
+                        key={`${msg.role}-${index}`}
+                        className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm sm:text-base leading-relaxed ${msg.role === 'user'
+                          ? 'self-end bg-blue-500 text-white'
+                          : 'self-start bg-slate-100 text-gray-800'
+                        }`}
+                      >
+                        {msg.content}
+                      </div>
+                    ))}
+
+                    {chatLoading && (
+                      <div className="max-w-[85%] self-start bg-slate-100 text-gray-800 rounded-2xl px-3 py-2">
+                        <div className="flex items-center gap-2 text-xs sm:text-sm">
+                          <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                          Thinking...
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {chatError && (
+                    <div className="mt-3 flex items-start gap-2 text-red-700 text-sm font-medium">
+                      <AlertIcon className="w-4 h-4 mt-0.5" />
+                      <span>{chatError}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleChatSend} className="mt-4 flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="text"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      placeholder="Ask a question about this quote..."
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm sm:text-base"
+                      disabled={chatLoading || !quote}
+                    />
+                    <button
+                      type="submit"
+                      disabled={chatLoading || !quote || !chatInput.trim()}
+                      className="px-4 sm:px-6 py-2.5 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <SendIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span>{chatLoading ? 'Sending...' : 'Send'}</span>
+                      </span>
+                    </button>
+                  </form>
                 </div>
               </div>
             )}

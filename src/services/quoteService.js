@@ -39,6 +39,11 @@ export async function explainQuote(quote) {
   return res.data
 }
 
+export async function chatAboutQuote(payload) {
+  const res = await axios.post(`${BASE_URL}/chat`, payload)
+  return res.data
+}
+
 export default {
   getRandomQuote,
   saveQuote,
@@ -46,4 +51,5 @@ export default {
   deleteQuote,
   fetchAndSaveRandomQuote,
   explainQuote,
+  chatAboutQuote,
 }

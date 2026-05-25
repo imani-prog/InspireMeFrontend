@@ -16,7 +16,8 @@ import {
   MessageSquare,
   Loader2,
   Inbox,
-  Lightbulb
+  Lightbulb,
+  Send
 } from 'lucide-react'
 
 export const SparklesIcon = ({ className = "w-6 h-6", ...props }) => (
@@ -85,4 +86,8 @@ export const InboxIcon = ({ className = "w-6 h-6", ...props }) => (
 
 export const ExplainIcon = ({ className = "w-6 h-6", ...props }) => (
   <Lightbulb className={className} {...props} />
+)
+
+export const SendIcon = ({ className = "w-6 h-6", ...props }) => (
+  <Send className={className} {...props} />
 )
