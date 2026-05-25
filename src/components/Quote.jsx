@@ -39,6 +39,41 @@ function Quote() {
     'What lesson should I take from this?',
   ]
 
+  function formatAiText(text) {
+    if (!text) return ''
+
+    const normalized = text.replace(/\r\n/g, '\n').trim()
+    const lines = normalized.split('\n').map((line) => line.trim()).filter(Boolean)
+    const hasList = lines.some((line) => /^([-*+]|\d+[.)])\s+/.test(line))
+
+    const withoutMarkdown = normalized
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/__(.*?)__/g, '$1')
+      .replace(/`([^`]+)`/g, '$1')
+
+    if (hasList) {
+      const items = lines
+        .map((line) => line.replace(/^([-*+]|\d+[.)])\s+/, '').trim())
+        .map((line) => line
+          .replace(/\*\*(.*?)\*\*/g, '$1')
+          .replace(/__(.*?)__/g, '$1')
+          .replace(/`([^`]+)`/g, '$1')
+        )
+        .filter(Boolean)
+      return items.map((item, index) => `${index + 1}. ${item}`).join('\n')
+    }
+
+    return withoutMarkdown.replace(/\r?\n{3,}/g, '\n\n').trim()
+  }
+
+  function getNumberedItems(content) {
+    if (!content) return null
+    const lines = content.split('\n').map((line) => line.trim()).filter(Boolean)
+    if (lines.length <= 1) return null
+    if (!lines.every((line) => /^\d+\.\s+/.test(line))) return null
+    return lines.map((line) => line.replace(/^\d+\.\s+/, '').trim()).filter(Boolean)
+  }
+
   useEffect(() => {
     fetchQuote()
   }, [])
@@ -112,7 +147,7 @@ function Quote() {
       if (!result) {
         setExplainError('No explanation returned')
       } else {
-        setExplanation(result)
+        setExplanation(formatAiText(result))
       }
     } catch (err) {
       const errorMsg = err.response?.data?.message || err.message || 'Failed to explain quote'
@@ -157,7 +192,7 @@ function Quote() {
         setChatError('No response from the AI. Please try again.')
         return
       }
-      setChatMessages((s) => [...s, { role: 'assistant', content: answer }])
+      setChatMessages((s) => [...s, { role: 'assistant', content: formatAiText(answer) }])
     } catch (err) {
       const status = err?.response?.status
       const errorMsg = status === 503
@@ -258,11 +293,23 @@ function Quote() {
                     </div>
                   )}
 
-                  {explanation && (
-                    <p className="text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed">
-                      {explanation}
-                    </p>
-                  )}
+                  {explanation && (() => {
+                    const items = getNumberedItems(explanation)
+                    if (items) {
+                      return (
+                        <ol className="list-decimal list-outside pl-5 space-y-1 text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed">
+                          {items.map((item, index) => (
+                            <li key={`${item}-${index}`}>{item}</li>
+                          ))}
+                        </ol>
+                      )
+                    }
+                    return (
+                      <p className="text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line">
+                        {explanation}
+                      </p>
+                    )
+                  })()}
                 </div>
               </div>
             )}
@@ -300,17 +347,28 @@ function Quote() {
                       <p className="text-sm text-gray-500">No questions yet. Start the conversation below.</p>
                     )}
 
-                    {chatMessages.map((msg, index) => (
-                      <div
-                        key={`${msg.role}-${index}`}
-                        className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm sm:text-base leading-relaxed ${msg.role === 'user'
-                          ? 'self-end bg-blue-500 text-white'
-                          : 'self-start bg-slate-100 text-gray-800'
-                        }`}
-                      >
-                        {msg.content}
-                      </div>
-                    ))}
+                    {chatMessages.map((msg, index) => {
+                      const items = getNumberedItems(msg.content)
+                      return (
+                        <div
+                          key={`${msg.role}-${index}`}
+                          className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm sm:text-base leading-relaxed ${msg.role === 'user'
+                            ? 'self-end bg-blue-500 text-white'
+                            : 'self-start bg-slate-100 text-gray-800'
+                          }`}
+                        >
+                          {items ? (
+                            <ol className="list-decimal list-outside pl-5 space-y-1">
+                              {items.map((item, itemIndex) => (
+                                <li key={`${item}-${itemIndex}`}>{item}</li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <p className="whitespace-pre-line">{msg.content}</p>
+                          )}
+                        </div>
+                      )
+                    })}
 
                     {chatLoading && (
                       <div className="max-w-[85%] self-start bg-slate-100 text-gray-800 rounded-2xl px-3 py-2">
