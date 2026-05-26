@@ -332,7 +332,7 @@ function Quote() {
                       <MessageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
                     <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
-                      Ask the AI
+                      Ask AI
                     </h3>
                   </div>
                   <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4">
