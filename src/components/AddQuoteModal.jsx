@@ -53,22 +53,22 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn overflow-y-auto">
-      <div className="relative w-full max-w-2xl my-4 sm:my-8">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn overflow-y-auto">
+      <div className="relative w-full sm:max-w-2xl my-0 sm:my-8 rounded-t-2xl sm:rounded-3xl">
         {/* Glow Effect */}
         {/* <div className="absolute -inset-0.5 bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 rounded-2xl sm:rounded-3xl blur opacity-30"></div> */}
         
         {/* Modal Content */}
-        <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 animate-slideUp max-h-[90vh] overflow-y-auto">
+        <div className="relative bg-white rounded-t-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 animate-slideUp max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-transparent bg-clip-text text-blue-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
-              <PenIcon className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-transparent bg-clip-text text-blue-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
+              <PenIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-blue-600" />
               Create New Quote
             </h2>
             <button
               onClick={handleClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
+              className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <CloseIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -85,15 +85,15 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Quote Text */}
             <div>
-              <label htmlFor="text" className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">
+              <label htmlFor="text" className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2">
                 Quote Text *
               </label>
               <textarea
                 id="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                rows={4}
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg sm:rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-800 font-medium resize-none text-sm sm:text-base"
+                rows={3}
+                className="w-full px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-xs sm:text-sm text-gray-800 resize-none"
                 placeholder="Enter your inspirational quote..."
                 disabled={loading}
               />
@@ -101,7 +101,7 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
 
             {/* Author */}
             <div>
-              <label htmlFor="author" className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">
+              <label htmlFor="author" className="block text-xs sm:text-sm font-bold text-gray-700 mb-1.5 sm:mb-2">
                 Author
               </label>
               <input
@@ -109,7 +109,7 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
                 type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-                className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg sm:rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-800 font-medium text-sm sm:text-base"
+                className="w-full px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-xs sm:text-sm text-gray-800"
                 placeholder="e.g., Mahatma Gandhi"
                 disabled={loading}
               />
@@ -117,20 +117,20 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4 px-4 sm:px-8">
+            <div className="flex flex-row gap-2 sm:gap-3 pt-2 sm:pt-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 sm:px-8 py-2.5 sm:py-3 bg-blue-600 text-white font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="flex-1 px-4 py-2 sm:px-8 sm:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
-                    <LoaderIcon className="w-5 h-5 animate-spin" />
+                    <LoaderIcon className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                     Creating...
                   </span>
                 ) : (
                   <span className="flex items-center justify-center gap-2">
-                    <SaveIcon className="w-5 h-5" />
+                    <SaveIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     Create Quote
                   </span>
                 )}
@@ -140,7 +140,7 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
                 type="button"
                 onClick={handleClose}
                 disabled={loading}
-                className="px-4 sm:px-8 py-2.5 sm:py-3 bg-gray-200 text-gray-700 font-bold text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-gray-300 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50"
+                className="flex-1 px-4 py-2 sm:px-8 sm:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
               >
                 Cancel
               </button>

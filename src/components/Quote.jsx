@@ -34,9 +34,9 @@ function Quote() {
   const [chatError, setChatError] = useState(null)
 
   const questionSuggestions = [
-    'How can I apply this in my daily routine?',
-    'What is a real-life example of this quote?',
-    'What lesson should I take from this?',
+    { short: 'Apply daily?', full: 'How can I apply this in my daily routine?' },
+    { short: 'Real-life example?', full: 'What is a real-life example of this quote?' },
+    { short: 'Key lesson?', full: 'What lesson should I take from this?' },
   ]
 
   function formatAiText(text) {
@@ -215,28 +215,38 @@ function Quote() {
       
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
-        <div className="max-w-6xl mx-auto py-4 sm:py-6 md:py-8">
+        <div className="max-w-6xl mx-auto py-3 sm:py-5 md:py-8 px-3 sm:px-4 md:px-6 lg:px-0">
           {/* Header */}
           <header className="text-center mb-8 sm:mb-12 md:mb-16 animate-slideUp">
-            <div className="inline-block relative">
-              <div className="absolute -inset-1  rounded-lg blur opacity-75"></div>
-              <div className="relative">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-2 sm:mb-3 md:mb-4 tracking-tight px-4 flex items-center justify-center gap-3 sm:gap-4" style={{fontFamily: "'Playfair Display', serif"}}>
-                  <SparklesIcon className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20" />
-                  InspireMe
-                </h1>
-                <div className="h-1 sm:h-1.5 md:h-2 bg-blue-400 rounded-full"></div>
+            <div className="sm:hidden flex flex-col items-center gap-2">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
+                <SparklesIcon className="w-4 h-4 text-white" />
+                <span className="text-sm font-bold text-white">InspireMe</span>
               </div>
+              <div className="h-0.5 w-20 bg-blue-400 rounded-full"></div>
             </div>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white mt-3 sm:mt-4 md:mt-6 font-medium tracking-wide px-4 flex items-center justify-center gap-2 sm:gap-3">
-              <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-              Your Daily Dose of Wisdom & Motivation
-              <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
-            </p>
+
+            <div className="hidden sm:block">
+              <div className="inline-block relative">
+                <div className="absolute -inset-1 rounded-lg blur opacity-75"></div>
+                <div className="relative">
+                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-2 sm:mb-3 md:mb-4 tracking-tight px-4 flex items-center justify-center gap-3 sm:gap-4" style={{fontFamily: "'Playfair Display', serif"}}>
+                    <SparklesIcon className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 lg:w-16 lg:h-16" />
+                    InspireMe
+                  </h1>
+                  <div className="h-1 md:h-2 bg-blue-400 rounded-full"></div>
+                </div>
+              </div>
+              <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-white mt-3 sm:mt-4 md:mt-6 font-medium tracking-wide px-4 flex items-center justify-center gap-2 sm:gap-3">
+                <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+                Your Daily Dose of Wisdom & Motivation
+                <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
+              </p>
+            </div>
           </header>
 
           {/* Main Content */}
-          <main className="space-y-6 sm:space-y-8">
+          <main className="space-y-4 sm:space-y-6 md:space-y-8">
             {/* Quote Display */}
             <div className="animate-fadeIn">
               {loading && (
@@ -268,27 +278,27 @@ function Quote() {
             </div>
 
             {(explainLoading || explainError || explanation) && (
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 animate-fadeIn">
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 md:p-8 border border-white/20">
+              <div className="max-w-md sm:max-w-4xl mx-auto px-3 sm:px-4 animate-fadeIn">
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl p-3 sm:p-5 md:p-6 lg:p-8 border border-white/20">
                   <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div className="bg-blue-500 rounded-full p-2">
-                      <ExplainIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    <div className="bg-blue-500 rounded-full p-1.5 sm:p-2">
+                      <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                    <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
                       Explanation
                     </h3>
                   </div>
 
                   {explainLoading && (
-                    <div className="flex items-center gap-3 text-gray-700 font-medium">
+                    <div className="flex items-center gap-3 text-gray-700 font-medium text-xs sm:text-sm md:text-base">
                       <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                       Generating explanation...
                     </div>
                   )}
 
                   {explainError && (
-                    <div className="flex items-start gap-2 text-red-700 font-medium">
-                      <AlertIcon className="w-5 h-5 mt-0.5" />
+                    <div className="flex items-start gap-2 text-red-700 font-medium text-xs sm:text-sm md:text-base">
+                      <AlertIcon className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5" />
                       <span>{explainError}</span>
                     </div>
                   )}
@@ -297,7 +307,7 @@ function Quote() {
                     const items = getNumberedItems(explanation)
                     if (items) {
                       return (
-                        <ol className="list-decimal list-outside pl-5 space-y-1 text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed">
+                        <ol className="list-decimal list-outside pl-5 space-y-1 text-gray-800 text-xs sm:text-sm md:text-base leading-relaxed">
                           {items.map((item, index) => (
                             <li key={`${item}-${index}`}>{item}</li>
                           ))}
@@ -305,7 +315,7 @@ function Quote() {
                       )
                     }
                     return (
-                      <p className="text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line">
+                      <p className="text-gray-800 text-xs sm:text-sm md:text-base leading-relaxed whitespace-pre-line">
                         {explanation}
                       </p>
                     )
@@ -315,36 +325,37 @@ function Quote() {
             )}
 
             {quote && (
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 animate-fadeIn">
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 md:p-8 border border-white/20">
+              <div className="max-w-md sm:max-w-4xl mx-auto px-3 sm:px-4 animate-fadeIn">
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl p-3 sm:p-5 md:p-6 lg:p-8 border border-white/20">
                   <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                    <div className="bg-blue-500 rounded-full p-2">
-                      <MessageIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                    <div className="bg-blue-500 rounded-full p-1.5 sm:p-2">
+                      <MessageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                    <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
                       Ask the AI
                     </h3>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
+                  <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4">
                     Ask a focused question about the quote for practical guidance.
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                     {questionSuggestions.map((suggestion) => (
                       <button
-                        key={suggestion}
+                        key={suggestion.full}
                         type="button"
-                        onClick={() => setChatInput(suggestion)}
-                        className="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                        onClick={() => setChatInput(suggestion.full)}
+                        className="px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-semibold rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
                       >
-                        {suggestion}
+                        <span className="sm:hidden">{suggestion.short}</span>
+                        <span className="hidden sm:inline">{suggestion.full}</span>
                       </button>
                     ))}
                   </div>
 
-                  <div className="flex flex-col gap-3 max-h-64 overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-2 sm:gap-3 max-h-40 sm:max-h-64 overflow-y-auto pr-1">
                     {chatMessages.length === 0 && !chatLoading && (
-                      <p className="text-sm text-gray-500">No questions yet. Start the conversation below.</p>
+                      <p className="text-xs sm:text-sm text-gray-500">No questions yet. Start the conversation below.</p>
                     )}
 
                     {chatMessages.map((msg, index) => {
@@ -352,7 +363,7 @@ function Quote() {
                       return (
                         <div
                           key={`${msg.role}-${index}`}
-                          className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm sm:text-base leading-relaxed ${msg.role === 'user'
+                          className={`max-w-[85%] rounded-xl px-3 py-2 text-xs sm:text-sm leading-relaxed ${msg.role === 'user'
                             ? 'self-end bg-blue-500 text-white'
                             : 'self-start bg-slate-100 text-gray-800'
                           }`}
@@ -371,7 +382,7 @@ function Quote() {
                     })}
 
                     {chatLoading && (
-                      <div className="max-w-[85%] self-start bg-slate-100 text-gray-800 rounded-2xl px-3 py-2">
+                      <div className="max-w-[85%] self-start bg-slate-100 text-gray-800 rounded-xl px-3 py-2">
                         <div className="flex items-center gap-2 text-xs sm:text-sm">
                           <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
                           Thinking...
@@ -381,29 +392,29 @@ function Quote() {
                   </div>
 
                   {chatError && (
-                    <div className="mt-3 flex items-start gap-2 text-red-700 text-sm font-medium">
-                      <AlertIcon className="w-4 h-4 mt-0.5" />
+                    <div className="mt-3 flex items-start gap-2 text-red-700 text-xs sm:text-sm font-medium">
+                        <AlertIcon className="w-4 h-4 mt-0.5" />
                       <span>{chatError}</span>
                     </div>
                   )}
 
-                  <form onSubmit={handleChatSend} className="mt-4 flex flex-col sm:flex-row gap-2">
+                    <form onSubmit={handleChatSend} className="mt-4 flex flex-row gap-2">
                     <input
                       type="text"
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
                       placeholder="Ask a question about this quote..."
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-sm sm:text-base"
+                        className="flex-1 w-full px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 text-xs sm:text-sm text-gray-800"
                       disabled={chatLoading || !quote}
                     />
                     <button
                       type="submit"
                       disabled={chatLoading || !quote || !chatInput.trim()}
-                      className="px-4 sm:px-6 py-2.5 bg-blue-500 text-white font-bold rounded-xl hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        className="px-3 py-2 sm:px-4 sm:py-2.5 bg-blue-500 text-white font-bold rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
-                      <span className="flex items-center justify-center gap-2">
-                        <SendIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                        <span>{chatLoading ? 'Sending...' : 'Send'}</span>
+                        <span className="flex items-center justify-center gap-2">
+                          <SendIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                          <span className="hidden sm:inline">{chatLoading ? 'Sending...' : 'Send'}</span>
                       </span>
                     </button>
                   </form>
@@ -412,15 +423,15 @@ function Quote() {
             )}
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center px-12 sm:px-16 md:px-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 w-full max-w-2xl sm:max-w-5xl mx-auto">
+            <div className="flex flex-col gap-2 sm:gap-3 md:gap-4 justify-center items-stretch sm:items-center">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 w-full max-w-xs sm:max-w-xl lg:max-w-5xl mx-auto">
                 <button
                   onClick={fetchQuote}
                   disabled={loading}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
-                    <RefreshIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:rotate-180 transition-transform duration-500" />
+                    <RefreshIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>New Quote</span>
                   </span>
                 </button>
@@ -428,20 +439,20 @@ function Quote() {
                 <button
                   onClick={handleSave}
                   disabled={loading || !quote}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
-                    <SaveIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
+                    <SaveIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Save Quote</span>
                   </span>
                 </button>
 
                 <button
                   onClick={() => setAddModalOpen(true)}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50"
+                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
-                    <PenIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
+                    <PenIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Create Quote</span>
                   </span>
                 </button>
@@ -449,20 +460,20 @@ function Quote() {
                 <button
                   onClick={handleExplain}
                   disabled={loading || explainLoading || !quote}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
-                    <ExplainIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
+                    <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{explainLoading ? 'Explaining...' : 'Explain Quote'}</span>
                   </span>
                 </button>
 
                 <button
                   onClick={() => navigate('/saved')}
-                  className="group relative px-4 sm:px-6 md:px-8 py-3 sm:py-3.5 md:py-4 bg-blue-500 text-white font-bold text-sm sm:text-base md:text-lg rounded-xl sm:rounded-2xl hover:from-blue-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-2xl hover:shadow-blue-500/50"
+                  className="col-span-2 lg:col-span-1 px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
-                    <BookIcon className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-125 transition-transform duration-300" />
+                    <BookIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>View Saved</span>
                   </span>
                 </button>
@@ -472,9 +483,9 @@ function Quote() {
             {/* Success Message */}
             {message && (
               <div className="text-center animate-slideUp px-4">
-                <div className="inline-flex items-center gap-2 sm:gap-3 bg-blue-500 backdrop-blur-lg border border-blue-300/50 px-4 sm:px-6 md:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-2xl">
-                  <CheckIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 animate-bounce text-white" />
-                  <span className="text-white font-bold text-sm sm:text-base md:text-xl">{message}</span>
+                <div className="inline-flex items-center gap-2 sm:gap-3 bg-blue-500 backdrop-blur-lg border border-blue-300/50 px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 rounded-lg sm:rounded-xl shadow-lg">
+                  <CheckIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 animate-bounce text-white" />
+                  <span className="text-white font-bold text-xs sm:text-sm md:text-base">{message}</span>
                 </div>
               </div>
             )}
