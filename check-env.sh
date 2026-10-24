@@ -2,6 +2,8 @@
 
 # Quick script to check environment configuration
 
+PROD_URL="https://inspireme-api.duckdns.org"
+
 echo "╔═══════════════════════════════════════════════════════════╗"
 echo "║       Environment Configuration Check                      ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
@@ -41,8 +43,8 @@ else
     echo " Offline or not responding"
 fi
 
-echo -n "Production backend (inspiremebackend.onrender.com): "
-if curl -s -o /dev/null -w "%{http_code}" https://inspiremebackend.onrender.com/api/quotes/random 2>/dev/null | grep -q "200"; then
+echo -n "Production backend (inspireme-api.duckdns.org): "
+if curl -s -o /dev/null -w "%{http_code}" "$PROD_URL/api/quotes/random" 2>/dev/null | grep -q "200"; then
     echo " Online"
 else
     echo " Offline or not responding"
@@ -58,7 +60,7 @@ echo "..."
 echo ""
 
 echo "Production backend:"
-curl -s https://inspiremebackend.onrender.com/api/quotes/random 2>/dev/null | head -c 100 || echo "Error: Cannot connect"
+curl -s "$PROD_URL/api/quotes/random" 2>/dev/null | head -c 100 || echo "Error: Cannot connect"
 echo "..."
 echo ""
 

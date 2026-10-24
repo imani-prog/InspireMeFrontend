@@ -7,7 +7,7 @@
   ],
   "build": {
     "env": {
-      "VITE_API_URL": "https://inspiremebackend.onrender.com/api/quotes"
+      "VITE_API_URL": "https://inspireme-api.duckdns.org"
     }
   }
 }
