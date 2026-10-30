@@ -210,43 +210,28 @@ function Quote() {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-slate-900">
+    <div className="app-shell min-h-screen relative overflow-hidden">
       {/* Animated Background Blobs */}
       
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
-        <div className="max-w-6xl mx-auto py-3 sm:py-5 md:py-8 px-3 sm:px-4 md:px-6 lg:px-0">
+        <div className="page-container">
           {/* Header */}
-          <header className="text-center mb-8 sm:mb-12 md:mb-16 animate-slideUp">
-            <div className="sm:hidden flex flex-col items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
-                <SparklesIcon className="w-4 h-4 text-white" />
-                <span className="text-sm font-bold text-white">InspireMe</span>
+          <header className="brand-header animate-slideUp">
+            <div className="brand-lockup">
+              <div className="brand-mark"><SparklesIcon className="w-5 h-5" /></div>
+              <div>
+                <h1 className="brand-name">InspireMe</h1>
+                <p className="brand-tagline">Your daily dose of wisdom & motivation</p>
               </div>
-              <div className="h-0.5 w-20 bg-blue-400 rounded-full"></div>
             </div>
-
-            <div className="hidden sm:block">
-              <div className="inline-block relative">
-                <div className="absolute -inset-1 rounded-lg blur opacity-75"></div>
-                <div className="relative">
-                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-white mb-2 sm:mb-3 md:mb-4 tracking-tight px-4 flex items-center justify-center gap-3 sm:gap-4" style={{fontFamily: "'Playfair Display', serif"}}>
-                    <SparklesIcon className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 lg:w-16 lg:h-16" />
-                    InspireMe
-                  </h1>
-                  <div className="h-1 md:h-2 bg-blue-400 rounded-full"></div>
-                </div>
-              </div>
-              <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-white mt-3 sm:mt-4 md:mt-6 font-medium tracking-wide px-4 flex items-center justify-center gap-2 sm:gap-3">
-                <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                Your Daily Dose of Wisdom & Motivation
-                <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-              </p>
-            </div>
+            <button type="button" onClick={() => navigate('/saved')} className="header-link">
+              <BookIcon className="w-4 h-4" /><span>Saved collection</span>
+            </button>
           </header>
 
           {/* Main Content */}
-          <main className="space-y-4 sm:space-y-6 md:space-y-8">
+          <main className="content-stack">
             {/* Quote Display */}
             <div className="animate-fadeIn">
               {loading && (
@@ -262,10 +247,10 @@ function Quote() {
               )}
 
               {error && (
-                <div className="max-w-2xl mx-auto bg-white/10 backdrop-blur-lg border border-red-400/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl animate-slideUp">
+                <div className="status-error max-w-2xl mx-auto rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm animate-slideUp">
                   <div className="flex items-center gap-3">
                     <AlertIcon className="w-6 h-6 sm:w-8 sm:h-8 text-red-300" />
-                    <p className="text-red-100 font-medium text-sm sm:text-base md:text-lg">{error}</p>
+                    <p className="font-medium text-sm sm:text-base md:text-lg">{error}</p>
                   </div>
                 </div>
               )}
@@ -279,14 +264,28 @@ function Quote() {
 
             {(explainLoading || explainError || explanation) && (
               <div className="max-w-md sm:max-w-4xl mx-auto px-3 sm:px-4 animate-fadeIn">
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl p-3 sm:p-5 md:p-6 lg:p-8 border border-white/20">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div className="bg-blue-500 rounded-full p-1.5 sm:p-2">
-                      <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <div className="surface-card ai-panel">
+                  <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="section-icon">
+                        <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                      </div>
+                      <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
+                        Explanation
+                      </h3>
                     </div>
-                    <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
-                      Explanation
-                    </h3>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setExplanation(null)
+                        setExplainError(null)
+                        setExplainLoading(false)
+                      }}
+                      className="icon-button"
+                      aria-label="Close explanation"
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
                   </div>
 
                   {explainLoading && (
@@ -326,9 +325,9 @@ function Quote() {
 
             {quote && (
               <div className="max-w-md sm:max-w-4xl mx-auto px-3 sm:px-4 animate-fadeIn">
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl p-3 sm:p-5 md:p-6 lg:p-8 border border-white/20">
+                <div className="surface-card ai-panel">
                   <div className="flex items-center gap-2 sm:gap-3 mb-2">
-                    <div className="bg-blue-500 rounded-full p-1.5 sm:p-2">
+                    <div className="section-icon">
                       <MessageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
                     <h3 className="text-base sm:text-xl md:text-2xl font-bold text-gray-900" style={{fontFamily: "'Playfair Display', serif"}}>
@@ -423,12 +422,12 @@ function Quote() {
             )}
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-2 sm:gap-3 md:gap-4 justify-center items-stretch sm:items-center">
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 w-full max-w-xs sm:max-w-xl lg:max-w-5xl mx-auto">
+            <div className="flex justify-center">
+              <div className="action-dock">
                 <button
                   onClick={fetchQuote}
                   disabled={loading}
-                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="action-button action-button--primary"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <RefreshIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -439,7 +438,7 @@ function Quote() {
                 <button
                   onClick={handleSave}
                   disabled={loading || !quote}
-                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="action-button"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <SaveIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -449,7 +448,7 @@ function Quote() {
 
                 <button
                   onClick={() => setAddModalOpen(true)}
-                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="action-button"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <PenIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -460,7 +459,7 @@ function Quote() {
                 <button
                   onClick={handleExplain}
                   disabled={loading || explainLoading || !quote}
-                  className="px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="action-button"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <ExplainIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -470,7 +469,7 @@ function Quote() {
 
                 <button
                   onClick={() => navigate('/saved')}
-                  className="col-span-2 lg:col-span-1 px-3 py-2 sm:px-5 sm:py-2.5 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                  className="action-button"
                 >
                   <span className="flex items-center justify-center gap-2 sm:gap-3">
                     <BookIcon className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -493,7 +492,7 @@ function Quote() {
 
           {/* Footer */}
           <footer className="text-center mt-12 sm:mt-16 md:mt-20 pb-4 sm:pb-6 md:pb-8">
-            <p className="text-white text-xs sm:text-sm font-bold px-4 flex items-center justify-center gap-2">
+            <p className="footer-copy text-xs sm:text-sm font-bold px-4 flex items-center justify-center gap-2">
               Made with <HeartIcon className="w-4 h-4 text-blue-400 animate-pulse fill-blue-400" /> for inspiration seekers worldwide
             </p>
           </footer>

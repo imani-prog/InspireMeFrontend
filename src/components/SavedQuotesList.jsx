@@ -239,35 +239,36 @@ export default function SavedQuotesList({ onClose }) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto mt-4 sm:mt-8 md:mt-12 px-3 sm:px-4 md:px-6 lg:px-0">
+    <div className="collection-shell">
       {/* Header Card */}
       <div className="relative group mb-6 sm:mb-8">
-        <div className="absolute -inset-0.5 bg-blue-500 rounded-xl sm:rounded-2xl blur opacity-30"></div>
-        <div className="relative bg-white/95 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-2xl p-3 sm:p-5 md:p-6 border border-white/20">
-          <div className="flex flex-col gap-3 sm:gap-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="text-xl sm:text-2xl md:text-4xl font-black text-transparent bg-clip-text bg-blue-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
-                <BookIcon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-blue-600" />
+        <div className="collection-header">
+          <div className="collection-title">
+            <div className="collection-eyebrow">LIBRARY / PERSONAL PICKS</div>
+            <div className="flex flex-wrap items-center gap-3">
+              <h3 className="collection-name">
+                <BookIcon className="h-6 w-6 text-blue-600" />
                 Your Collection
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-xs sm:text-sm font-semibold bg-blue-100 text-blue-700">
-                {quotes.length} {quotes.length === 1 ? 'quote' : 'quotes'}
+              <span className="collection-count">
+                {quotes.length} saved
               </span>
             </div>
-            <div className="flex flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-0">
+            <p className="collection-description">A private shelf for the words worth coming back to.</p>
+          </div>
+          <div className="collection-tools">
               <button
-                className="px-3 py-1.5 sm:px-5 sm:py-2 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                className="action-button action-button--primary"
                 onClick={handleAddRandomQuote}
                 disabled={loading}
               >
                 <span className="flex items-center justify-center gap-1.5 sm:gap-2">
                   <PlusIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                  <span className="whitespace-nowrap sm:hidden">Random</span>
-                  <span className="hidden sm:inline whitespace-nowrap">Add Random</span>
+                  <span className="whitespace-nowrap">Add random</span>
                 </span>
               </button>
               <button
-                className="px-3 py-1.5 sm:px-5 sm:py-2 md:px-8 md:py-3 bg-blue-500 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
+                className="action-button"
                 onClick={load}
                 disabled={loading}
               >
@@ -277,15 +278,19 @@ export default function SavedQuotesList({ onClose }) {
                 </span>
               </button>
               <button
-                className="px-3 py-1.5 sm:px-5 sm:py-2 md:px-8 md:py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold text-xs sm:text-sm md:text-base rounded-lg sm:rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-0.5 shadow-lg hover:shadow-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
-                onClick={onClose}
+                type="button"
+                className="action-button"
+                onClick={(event) => {
+                  event.preventDefault()
+                  onClose()
+                }}
+                aria-label="Close saved quotes"
               >
                 <span className="flex items-center justify-center gap-1.5 sm:gap-2">
                   <CloseIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
                   <span>Close</span>
                 </span>
               </button>
-            </div>
           </div>
         </div>
       </div>
@@ -312,10 +317,10 @@ export default function SavedQuotesList({ onClose }) {
 
       {/* Error State */}
       {error && (
-        <div className="mb-4 sm:mb-6 bg-white/10 backdrop-blur-lg border border-red-400/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl">
+        <div className="status-error mb-4 sm:mb-6 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm">
           <div className="flex items-center gap-2 sm:gap-3">
             <AlertIcon className="w-6 h-6 sm:w-8 sm:h-8 text-red-300" />
-            <p className="text-red-100 font-medium text-sm sm:text-base md:text-lg">{error}</p>
+            <p className="font-medium text-sm sm:text-base md:text-lg">{error}</p>
           </div>
         </div>
       )}
@@ -323,7 +328,6 @@ export default function SavedQuotesList({ onClose }) {
       {/* Empty State */}
       {!loading && quotes.length === 0 && (
         <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-lime-500 rounded-xl sm:rounded-2xl blur opacity-20"></div>
           <div className="relative bg-white/90 backdrop-blur-lg rounded-xl sm:rounded-2xl p-8 sm:p-12 md:p-16 text-center border border-white/20">
             <div className="mb-4 sm:mb-6 animate-float flex justify-center">
               <InboxIcon className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 text-gray-400" />
@@ -335,7 +339,13 @@ export default function SavedQuotesList({ onClose }) {
       )}
 
       {/* Quotes Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-5">
+      <div className="collection-meta">
+        <span><strong>{quotes.length}</strong> moments saved</span>
+        <span className="collection-meta-line" />
+        <span>Keep the ones that move you forward.</span>
+      </div>
+
+      <div className="saved-grid">
         {quotes.map((q, index) => {
           const quoteKey = q.id ?? `row-${index}`
           const explainState = explanations[quoteKey]
@@ -347,10 +357,8 @@ export default function SavedQuotesList({ onClose }) {
             style={{animationDelay: `${index * 0.1}s`}}
           >
             {/* Glow Effect */}
-            <div className="absolute -inset-0.5 bg-blue-600 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
-            
             {/* Quote Card */}
-            <div className="relative bg-white/90 backdrop-blur-sm p-3 sm:p-4 md:p-5 lg:p-6 rounded-lg sm:rounded-xl border border-emerald-200/50 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="saved-card relative p-4 sm:p-5 transition-all duration-300 transform hover:-translate-y-0.5">
               {/* Quote Icon */}
               <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 bg-blue-600 rounded-full p-1 sm:p-1.5 md:p-2 shadow-md">
                 <MessageIcon className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" />
@@ -358,7 +366,8 @@ export default function SavedQuotesList({ onClose }) {
               
               <div className="flex flex-col h-full">
                 {/* Quote Text */}
-                <div className="flex-1 mb-3 sm:mb-4 pt-2">
+                <div className="flex-1 mb-3 sm:mb-4 pt-1">
+                  <span className="quote-index">0{index + 1}</span>
                   <p className="text-sm sm:text-base text-gray-800 leading-relaxed font-medium italic">
                     "{q.text || q.q || q.quote}"
                   </p>
@@ -366,9 +375,23 @@ export default function SavedQuotesList({ onClose }) {
 
                 {(explainState?.loading || explainState?.error || explainState?.text) && (
                   <div className="mb-2 sm:mb-3 md:mb-4 rounded-lg border border-blue-200/60 bg-blue-50/60 p-2.5 sm:p-3 md:p-4">
-                    <div className="flex items-center gap-2 mb-2 text-blue-700 font-bold">
-                      <ExplainIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      <span className="text-xs sm:text-sm">Explanation</span>
+                    <div className="flex items-center justify-between gap-2 mb-2 text-blue-700 font-bold">
+                      <div className="flex items-center gap-2">
+                        <ExplainIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <span className="text-xs sm:text-sm">Explanation</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setExplanations((state) => {
+                          const next = { ...state }
+                          delete next[quoteKey]
+                          return next
+                        })}
+                        className="icon-button"
+                        aria-label="Close explanation"
+                      >
+                        <span aria-hidden="true">×</span>
+                      </button>
                     </div>
 
                     {explainState?.loading && (
@@ -480,7 +503,7 @@ export default function SavedQuotesList({ onClose }) {
                 </div>
                 
                 {/* Author & Actions */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 sm:gap-3 md:gap-4 pt-2 sm:pt-3 md:pt-4 border-t border-blue-100">
+                <div className="saved-card-footer flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 sm:gap-3 pt-3">
                   <div className="flex items-center gap-2">
                     <div className="h-1 w-8 sm:w-10 bg-blue-600 rounded-full"></div>
                     <div className="text-xs sm:text-sm font-bold">

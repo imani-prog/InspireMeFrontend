@@ -53,13 +53,13 @@ export default function AddQuoteModal({ isOpen, onClose, onQuoteAdded }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/50 backdrop-blur-sm animate-fadeIn overflow-y-auto">
+    <div className="modal-backdrop fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm animate-fadeIn overflow-y-auto">
       <div className="relative w-full sm:max-w-2xl my-0 sm:my-8 rounded-t-2xl sm:rounded-3xl">
         {/* Glow Effect */}
         {/* <div className="absolute -inset-0.5 bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 rounded-2xl sm:rounded-3xl blur opacity-30"></div> */}
         
         {/* Modal Content */}
-        <div className="relative bg-white rounded-t-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 animate-slideUp max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
+        <div className="modal-panel relative bg-white rounded-t-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 animate-slideUp max-h-[92vh] sm:max-h-[90vh] overflow-y-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-4 sm:mb-6">
             <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-transparent bg-clip-text text-blue-600 flex items-center gap-2 sm:gap-3" style={{fontFamily: "'Playfair Display', serif"}}>
